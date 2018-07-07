@@ -1,12 +1,6 @@
 import React, { Fragment } from "react";
+import { TOGGLE_ON, TOGGLE_OFF, MODE, ASYNC, SYNC } from "../constants";
 import "./Switch.css";
-
-export const TOGGLE_ON = "toggle--on";
-export const TOGGLE_OFF = "toggle--off";
-
-export const MODE = "Mode";
-export const ASYNC = "Asynchronous";
-export const SYNC = "Synchronous";
 
 export const toggleSwitch = state => {
   switch (state) {

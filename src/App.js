@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Clock from "./components/Clock";
 import Counter from "./components/Counter";
-import Switch, { toggleSwitch, TOGGLE_OFF } from "./components/Switch";
-import { asyncReduce, reduce } from "./reduce";
-
+import Header from "./components/Header";
+import Switch, { toggleSwitch } from "./components/Switch";
+import { CHECKBOX, TOGGLE_OFF } from "./constants";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -15,7 +15,7 @@ class App extends Component {
 
   toggle = event => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === CHECKBOX ? target.checked : target.value;
     return this.setState({
       value: toggleSwitch(value),
       checked: target.checked
@@ -26,17 +26,10 @@ class App extends Component {
     const { value, checked } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        <Header logo={logo} />
         <Switch value={value} toggle={this.toggle} />
-        <div className="Wrapper">
-          <Clock />
-        </div>
-        <div className="Wrapper">
-          <Counter reducer={checked ? asyncReduce : reduce} checked={checked} />
-        </div>
+        <Clock />
+        <Counter checked={checked} />
       </div>
     );
   }

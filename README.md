@@ -1,42 +1,56 @@
 # Asynchronous Operations
 
-## Hypothesis
+## Challenge
 
-JavaScript is single threaded, which means that large operations will block user interactions.
+Is it possible to keep a clock ticking while building a very large array?
 
-By using Asynchronous operations the JavaScript engine prevent user interaction from being blocked, while
-also performing calculations while the thread is free.
+Making an array of length 7000000 synchronously, takes about 1.6 seconds, which means the clock will skip a beat. Find a way to do so without blocking the UI.
 
-Is there any benefit in converting array operations to asynchronous operations? Are large arrays a good test bed?
+Inspiration taken from:
 
-## Reducer
+- [Chunks](https://stackoverflow.com/questions/10344498/best-way-to-iterate-over-an-array-without-blocking-the-ui)
+- [Async Reducers](https://blog.bloomca.me/2018/01/27/asynchronous-reduce-in-javascript.html)
 
-A normal reducer runs a handler function over each element of the array. The handler has access to the previous result, and the final result of the reducer will be the handler applied to the last element.
+## Solution
 
-For instance:
+_No webworkers_
 
-```js
-const sum = [1, 2, 3].reduce((previous, value) => previous + value, 0);
-```
+`Async/await` and processing in chunks.
 
-The first argument passed to reduce is the handler, or callback. The second argument is the initial value of previous. For every element of the target array, we apply the handler and the result becomes the value of previous in the next iteration. For the first iteration previous equals zero.
+### Setup
 
-### Async Reducer
+A `React-App` with a `<Switch/>` handling the sync/async mode of operation, a `<Clock/>` and `<Counter/>`.
 
-For very large arrays, this operation will take more time, because each iteration has to be fulfilled to be used by the next iteration. Unlike a map where each evaluation should be independent from the previous iterations.
+A set of functions to build arrays in both synchronous and asynchronous modes.
 
-A first approach:
+#### App
 
-```js
-async function asyncReducer(array, handler, start) {
-  let result = start;
-  for (let value of array) {
-    result = await handler(result, value);
+```jsx
+class App extends Component {
+  state = {
+    value: TOGGLE_OFF,
+    checked: false
+  };
+
+  toggle = event => {
+    const target = event.target;
+    const value = target.type === CHECKBOX ? target.checked : target.value;
+    return this.setState({
+      value: toggleSwitch(value),
+      checked: target.checked
+    });
+  };
+
+  render() {
+    const { value, checked } = this.state;
+    return (
+      <div className="App">
+        <Header logo={logo} />
+        <Switch value={value} toggle={this.toggle} />
+        <Clock />
+        <Counter checked={checked} />
+      </div>
+    );
   }
-  return result;
 }
 ```
-
-The first thing a functional programmer sees in `asyncReducer` is the for loop. In this case the for loop uses the native iteratior from the array, and allows `yielding` or `awaiting` for the result of each loop.
-
-However, this is very ineffective.
