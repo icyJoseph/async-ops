@@ -4,7 +4,7 @@
 
 Is it possible to keep a clock ticking while building a very large array? Say of 10 000 000 elements?
 
-Making an array of length 7000000 synchronously, takes about 1.6 seconds, which means the clock will skip a beat. Find a way to do so without blocking the UI.
+Making an array of length 10 000 000 synchronously, takes about 2.3 seconds, which means the clock will skip a beat. Find a way to do so without blocking the UI.
 
 Inspiration taken from:
 
