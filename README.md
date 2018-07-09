@@ -1,5 +1,7 @@
 # Asynchronous Operations
 
+Next challenge, Reduce, Map and Filter.
+
 ## Challenge
 
 Is it possible to keep a clock ticking while building a very large array? Say of 10 000 000 elements?
