@@ -1,4 +1,4 @@
-export const largeNumber = 7000000;
+export const largeNumber = 10000000;
 
 export const toSeconds = (start, end) => ((end - start) / 1000).toFixed(1);
 
