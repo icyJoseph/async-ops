@@ -27,6 +27,8 @@ This function, relies on chunk processor, to concat the element into the array i
 
 When the length matches the desired length, apply the callback or return the array.
 
+See the [Demo](https://icyjoseph.github.io/async-ops/) and notice how in Asynchronous mode the clock keeps ticking!
+
 ```js
 export async function buildArrayAsync(length, elems, callback, timeout = 200) {
   let index = 0;
